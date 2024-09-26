@@ -18,6 +18,9 @@ jobs:
 
     - name: Build
       run: |
+        pwd
+        ls -a
+        ls ${{github.workspace}}
         mkdir chest
         mkdir ${{github.workspace}}/other_chest
         echo "this is a valuable artifact without a container" > artifact.txt
