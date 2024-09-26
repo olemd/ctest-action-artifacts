@@ -45,7 +45,7 @@ jobs:
       continue-on-error: true
 
     - name: Make sure there is a report there
-      run: ls -l build/report.xml
+      run: ls -lR
 
     - uses: actions/upload-artifact@v4
       with:
