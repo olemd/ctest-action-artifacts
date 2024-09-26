@@ -58,6 +58,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: test reports
-        path: |
-          build/report.xml
-          ${{github.workspace}}/build/report.xml
+        path: ${{github.workspace}}/build/report.xml
