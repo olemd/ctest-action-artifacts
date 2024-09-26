@@ -1,0 +1,31 @@
+name: minimal artifact example with container
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:noble
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      run: echo "this is a valuable artifact in a container" > artifact.txt
+
+    - name: Make sure there is a report there
+      run: |
+        echo "github.workspace = ${{github.workspace}}"
+        find ${{github.workspace}} -name artifact.txt -ls
+        find . -name artifact.txt -ls
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: artifact.txt
