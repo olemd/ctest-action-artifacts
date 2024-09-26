@@ -38,10 +38,15 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: relative artifact, top level
+        name: absolute artifact in a chest
+        path: ${{github.workspace}}/chest/artifact.txt
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: relative artifact
         path: artifact.txt
 
     - uses: actions/upload-artifact@v4
       with:
-        name: relative artifact, sub level
+        name: relative artifact, in a chest
         path: chest/artifact.txt
