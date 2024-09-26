@@ -19,11 +19,15 @@ jobs:
     - name: Build
       run: echo "this is a valuable artifact in a container" > artifact.txt
 
-    - name: Make sure there is a report there
+    - name: Look for a report in workspace
       run: |
         echo "github.workspace = ${{github.workspace}}"
-        find ${{github.workspace}} -name artifact.txt -ls
-        find . -name artifact.txt -ls
+        find ${{github.workspace}} -name artifact.txt -ls || true
+
+    - name: Look for a report in default location?
+      run: |
+        echo "github.workspace = ${{github.workspace}}"
+        find . -name artifact.txt -ls || true
 
     - uses: actions/upload-artifact@v4
       with:
