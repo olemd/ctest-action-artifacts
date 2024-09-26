@@ -45,9 +45,11 @@ jobs:
       continue-on-error: true
 
     - name: Make sure there is a report there
-      run: ls -lR ${{github.workspace}}
+      run: find ${{github.workspace}} -name report.xml -ls
 
     - uses: actions/upload-artifact@v4
       with:
         name: test reports
-        path: ${{github.workspace}}/build/report.xml
+        path: |
+          build/report.xml
+          ${{github.workspace}}/build/report.xml
