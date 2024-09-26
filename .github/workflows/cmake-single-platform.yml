@@ -44,6 +44,9 @@ jobs:
       run: ctest -C ${{env.BUILD_TYPE}} --test-dir ${{github.workspace}}/build --output-junit report.xml
       continue-on-error: true
 
+    - name: Make sure there is a report there
+      run: ls -l build/report.xml
+
     - uses: actions/upload-artifact@v4
       with:
         name: test reports
