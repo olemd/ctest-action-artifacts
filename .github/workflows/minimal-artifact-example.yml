@@ -58,3 +58,8 @@ jobs:
         name: artifact in workspace chest
         path: other_chest/artifact.txt
 
+    - uses: actions/upload-artifact@v4
+      with:
+        name: absolute artifact in workspace chest
+        path: ${{github.workspace}}/other_chest/artifact.txt
+

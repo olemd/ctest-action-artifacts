@@ -1,4 +1,4 @@
-name: minimal artifact example, with container
+name: minimal artifact example in container
 
 on:
   push:
@@ -10,14 +10,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: ubuntu:noble
+
     steps:
     - uses: actions/checkout@v4
 
     - name: Build
       run: |
         mkdir chest
-        echo "this is a valuable artifact in a container" > artifact.txt
-        echo "this is a valuable artifact in a chest inside a container" > chest/artifact.txt
+        mkdir ${{github.workspace}}/other_chest
+        echo "this is a valuable artifact without a container" > artifact.txt
+        echo "this is a valuable artifact in a chest outside a container" > chest/artifact.txt
+        echo "this is a secret in another chest" > ${{github.workspace}}/other_chest/artifact.txt
 
     - name: Look for artifacts in the github.workspace
       run: |
@@ -48,5 +53,16 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: relative artifact, in a chest
+        name: relative artifact in a chest
         path: chest/artifact.txt
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifact in workspace chest
+        path: other_chest/artifact.txt
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: absolute artifact in workspace chest
+        path: ${{github.workspace}}/other_chest/artifact.txt
+
