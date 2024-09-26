@@ -20,12 +20,11 @@ jobs:
       run: |
         pwd
         ls -a
-        ls ${{github.workspace}}
         mkdir chest
-        mkdir ${{github.workspace}}/other_chest
-        echo "this is a valuable artifact without a container" > artifact.txt
-        echo "this is a valuable artifact in a chest outside a container" > chest/artifact.txt
-        echo "this is a secret in another chest" > ${{github.workspace}}/other_chest/artifact.txt
+        mkdir other_chest
+        echo "this is a valuable artifact inside a container" > artifact.txt
+        echo "this is a valuable artifact in a chest inside a container" > chest/artifact.txt
+        echo "this is a valuable artifact in another chest inside a container" > other_chest/artifact.txt
 
     - name: Look for artifacts in the github.workspace
       run: |
@@ -68,4 +67,3 @@ jobs:
       with:
         name: absolute artifact in workspace chest
         path: ${{github.workspace}}/other_chest/artifact.txt
-
