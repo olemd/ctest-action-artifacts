@@ -22,20 +22,28 @@ jobs:
     container:
       image: ubuntu:noble
 
+      volumes:
+        - ccache:/root/.cache/ccache
+        - ccache:/root/.config/ccache
+
     steps:
     - uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: apt update && apt install -y build-essential cmake catch2
+      run: apt update && apt install -y build-essential cmake catch2 ccache
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: |
+        ccache -s
+        cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build build --config ${{env.BUILD_TYPE}}
+      run: |
+        cmake --build build --config ${{env.BUILD_TYPE}}
+        ccache -s
 
     - name: Test
       run: ctest -C ${{env.BUILD_TYPE}} --test-dir build --output-junit report.xml
